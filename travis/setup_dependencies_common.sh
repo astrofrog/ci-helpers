@@ -51,7 +51,7 @@ if [[ ! -z $ASTROPY_VERSION ]]; then
     if [[ $ASTROPY_VERSION == development ]] || [[ $ASTROPY_VERSION == dev ]]; then
         # Install Astropy core dependencies first
         $CONDA_INSTALL Cython jinja2
-        $PIP_INSTALL git+http://github.com/astropy/astropy.git@d0548e3964464853083fd1ba8ae2b99056924368#egg=astropy
+        $PIP_INSTALL git+http://github.com/astropy/astropy.git@19560c67e3441c762b60a1631133319bae3d31c8#egg=astropy
     elif [[ $ASTROPY_VERSION == stable ]]; then
         $CONDA_INSTALL astropy
     else
