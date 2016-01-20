@@ -21,7 +21,7 @@ do
     conda config --add channels $channel
 done
 
-conda update -q conda
+conda update conda
 
 # Use utf8 encoding. Should be default, but this is insurance against
 # future changes
@@ -32,7 +32,7 @@ if [[ -z $PYTHON_VERSION ]]; then
 fi
 
 # CONDA
-conda create -q -n test python=$PYTHON_VERSION
+conda create -n test python=$PYTHON_VERSION
 source activate test
 
 # EGG_INFO
@@ -41,7 +41,7 @@ if [[ $SETUP_CMD == egg_info ]]; then
 fi
 
 # CORE DEPENDENCIES
-conda install -q pytest pip
+conda install pytest pip
 
 export PIP_INSTALL='pip install'
 
@@ -90,15 +90,15 @@ fi
 # NUMPY
 if [[ $NUMPY_VERSION == dev* ]]; then
     # Install at the bottom of this script
-    export CONDA_INSTALL="conda install -q python=$PYTHON_VERSION"
+    export CONDA_INSTALL="conda install python=$PYTHON_VERSION"
 elif [[ $NUMPY_VERSION == stable ]]; then
-    conda install -q numpy
-    export CONDA_INSTALL="conda install -q python=$PYTHON_VERSION"
+    conda install numpy
+    export CONDA_INSTALL="conda install python=$PYTHON_VERSION"
 elif [[ ! -z $NUMPY_VERSION ]]; then
-    conda install -q numpy=$NUMPY_VERSION
-    export CONDA_INSTALL="conda install -q python=$PYTHON_VERSION numpy=$NUMPY_VERSION"
+    conda install numpy=$NUMPY_VERSION
+    export CONDA_INSTALL="conda install python=$PYTHON_VERSION numpy=$NUMPY_VERSION"
 else
-    export CONDA_INSTALL="conda install -q python=$PYTHON_VERSION"
+    export CONDA_INSTALL="conda install python=$PYTHON_VERSION"
 fi
 
 # ASTROPY
@@ -156,7 +156,7 @@ fi
 # would override Numpy dev.
 
 if [[ $NUMPY_VERSION == dev* ]]; then
-    conda install -q Cython
+    conda install Cython
     $PIP_INSTALL git+http://github.com/numpy/numpy.git#egg=numpy --upgrade
 fi
 
