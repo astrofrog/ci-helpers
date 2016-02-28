@@ -16,7 +16,7 @@ addons:
 env:
     global:
         - SETUP_CMD='test'
-        - TEST_CMD='py.test test_env.py'
+        - TEST_CMD='py.test -v test_env.py'
         - PYTHON_VERSION=3.5
 
 
