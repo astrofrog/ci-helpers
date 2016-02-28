@@ -129,18 +129,16 @@ def test_regression_mkl():
     # the MKL. The solution is to simply make sure that we install the
     # ``nomkl`` conda pacakge when installing the developer version of Numpy.
 
-    if os.environ.get('NUMPY_VERSION', '') == 'dev':
+    try:
+        import scipy
+    except ImportError:
+        pytest.skip()
 
-        try:
-            import scipy
-        except ImportError:
-            pytest.skip()
+    import numpy as np
+    from scipy.linalg import inv
 
-        import numpy as np
-        from scipy.linalg import inv
-
-        x = np.random.random((3,3))
-        inv(x)
+    x = np.random.random((3,3))
+    inv(x)
 
 
 if __name__ == '__main__':
