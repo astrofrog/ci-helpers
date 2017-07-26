@@ -121,6 +121,7 @@ if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 # Create a conda environment using the astropy bonus packages
 
 conda create -q -n test python=$env:PYTHON_VERSION
+echo $LastExitCode
 if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 activate test
