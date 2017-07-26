@@ -22,8 +22,6 @@ matrix:
 platform:
     -x64
 
-os: Visual Studio 2015 Update 2
-
 install:
 
     # Install Miniconda
