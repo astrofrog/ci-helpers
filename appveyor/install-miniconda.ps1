@@ -80,18 +80,24 @@ if (! $env:MINICONDA_VERSION) {
 }
 
 InstallMiniconda $env:MINICONDA_VERSION $env:PLATFORM $env:PYTHON
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 # Set environment variables
 $env:PATH = "${env:PYTHON};${env:PYTHON}\Scripts;" + $env:PATH
 
 # Conda config
+
 conda config --set always_yes true
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
+
 conda config --add channels defaults
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 if ($env:CONDA_CHANNELS) {
    $CONDA_CHANNELS=$env:CONDA_CHANNELS.split(" ")
    foreach ($CONDA_CHANNEL in $CONDA_CHANNELS) {
            conda config --add channels $CONDA_CHANNEL
+           if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
    }
    Remove-Variable CONDA_CHANNELS
    rm env:CONDA_CHANNELS
@@ -99,6 +105,7 @@ if ($env:CONDA_CHANNELS) {
 
 # Install the build and runtime dependencies of the project.
 conda install -q conda=$env:CONDA_VERSION
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 if (! $env:CONDA_CHANNEL_PRIORITY) {
    $CONDA_CHANNEL_PRIORITY="false"
@@ -109,19 +116,26 @@ if (! $env:CONDA_CHANNEL_PRIORITY) {
 # We need to add this after the update, otherwise the ``channel_priority``
 # key may not yet exists
 conda config  --set channel_priority $CONDA_CHANNEL_PRIORITY
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 # Create a conda environment using the astropy bonus packages
+
 conda create -q -n test python=$env:PYTHON_VERSION
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
+
 activate test
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 # Set environment variables for environment (activate test doesn't seem to do the trick)
 $env:PATH = "${env:PYTHON}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:PYTHON}\envs\test\Library\bin;" + $env:PATH
 
 # Check that we have the expected version of Python
 python --version
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 # CORE DEPENDENCIES
 conda install -q -n test pytest pip
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 # Check whether a specific version of Numpy is required
 if ($env:NUMPY_VERSION) {
@@ -133,6 +147,7 @@ if ($env:NUMPY_VERSION) {
         $NUMPY_OPTION = "numpy=" + $env:NUMPY_VERSION
     }
     conda install -n test -q $NUMPY_OPTION
+    if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 } else {
     $NUMPY_OPTION = ""
 }
@@ -149,6 +164,7 @@ if ($env:ASTROPY_VERSION) {
         $ASTROPY_OPTION = "astropy=" + $env:ASTROPY_VERSION
     }
     $output = cmd /c conda install -n test -q $NUMPY_OPTION $ASTROPY_OPTION 2>&1
+    if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
     echo $output
     if ($output | select-string UnsatisfiableError) {
        echo "Installing astropy with conda was unsuccessful, using pip instead"
@@ -167,6 +183,7 @@ if ($env:CONDA_DEPENDENCIES) {
 
 # Check whether the installation is successful, if not abort the build
 $output = cmd /c conda install -n test -q $NUMPY_OPTION $CONDA_DEPENDENCIES 2>&1
+if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 
 echo $output
 if ($output | select-string UnsatisfiableError, PackageNotFoundError) {
@@ -181,12 +198,14 @@ if ($output | select-string UnsatisfiableError, PackageNotFoundError) {
 # Check whether the developer version of Numpy is required and if yes install it
 if ($env:NUMPY_VERSION -match "dev") {
    Invoke-Expression "${env:CMD_IN_ENV} pip install git+https://github.com/numpy/numpy.git#egg=numpy --upgrade --no-deps"
+   if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 }
 
 # Check whether the developer version of Astropy is required and if yes install
 # it. We need to include --no-deps to make sure that Numpy doesn't get upgraded.
 if ($env:ASTROPY_VERSION -match "dev") {
    Invoke-Expression "${env:CMD_IN_ENV} pip install git+https://github.com/astropy/astropy.git#egg=astropy --upgrade --no-deps"
+   if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 }
 
 # We finally install the dependencies listed in PIP_DEPENDENCIES. We do this
@@ -209,4 +228,5 @@ if ($env:PIP_DEPENDENCIES) {
 
 if ($env:PIP_DEPENDENCIES) {
     pip install $PIP_DEPENDENCIES $PIP_FLAGS
+    if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode)  }
 }
