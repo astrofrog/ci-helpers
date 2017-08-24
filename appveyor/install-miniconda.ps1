@@ -193,15 +193,8 @@ if ($env:ASTROPY_VERSION) {
     } else {
         $ASTROPY_OPTION = "astropy=" + $env:ASTROPY_VERSION
     }
-    $output = cmd /c conda install -n test $QUIET $NUMPY_OPTION $ASTROPY_OPTION 2>&1
-    echo $output
-    if ($output | select-string UnsatisfiableError) {
-       echo "Installing astropy with conda was unsuccessful, using pip instead"
-       pip install $ASTROPY_OPTION
-       checkLastExitCode
-    } else {
-      checkLastExitCode
-    }
+    conda install -n test $QUIET $NUMPY_OPTION $ASTROPY_OPTION
+    checkLastExitCode
 } else {
     $ASTROPY_OPTION = ""
 }
@@ -215,15 +208,8 @@ if ($env:SUNPY_VERSION) {
     } else {
         $SUNPY_OPTION = "sunpy=" + $env:SUNPY_VERSION
     }
-    $output = cmd /c conda install -n test $QUIET $NUMPY_OPTION $SUNPY_OPTION 2>&1
-    echo $output
-    if ($output | select-string UnsatisfiableError) {
-       echo "Installing sunpy with conda was unsuccessful, using pip instead"
-       pip install $SUNPY_OPTION
-       checkLastExitCode
-    } else {
-      checkLastExitCode
-    }
+    conda install -n test $QUIET $NUMPY_OPTION $SUNPY_OPTION
+    checkLastExitCode
 } else {
     $SUNPY_OPTION = ""
 }
@@ -238,19 +224,8 @@ if ($env:CONDA_DEPENDENCIES) {
 # If NUMPY_OPTION and CONDA_DEPENDENCIES are both empty, we skip this step
 if ($NUMPY_OPTION -or $CONDA_DEPENDENCIES) {
 
-  $output = cmd /c conda install -n test $QUIET $NUMPY_OPTION $CONDA_DEPENDENCIES 2>&1
-  echo $output
-  if ($output | select-string UnsatisfiableError, PackageNotFoundError) {
-     echo "Installing dependencies with conda was unsuccessful, using pip instead"
-     $output = cmd /c pip install $CONDA_DEPENDENCIES 2>&1
-     echo $output
-     checkLastExitCode
-     if ($output | select-string UnsatisfiableError, PackageNotFoundError) {
-        Exit 1
-     }
-  } else {
-    checkLastExitCode
-  }
+  conda install -n test $QUIET $NUMPY_OPTION $CONDA_DEPENDENCIES
+  checkLastExitCode
 
 }
 
