@@ -26,7 +26,7 @@ echo "TOXPOSARGS: "$TOXPOSARGS
 echo "TOXARGS: "$TOXARGS
 
 pip install tox-pypi-filter
-export TOXPOSARGS=$TOXPOSARGS" --force-dep='pytest<5'"
+export TOXPOSARGS=$TOXPOSARGS" --pypi-filter='pytest<5'"
 
 TOXARGS="-vv"
 
