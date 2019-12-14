@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo "ACTIVATING PATCHES!"
 echo ""
@@ -25,8 +25,7 @@ echo ""
 echo "TOXPOSARGS: "$TOXPOSARGS
 echo "TOXARGS: "$TOXARGS
 
-pip install tox-pypi-filter
-export TOXARGS=$TOXARGS" --pypi-filter=\"pytest<5\" -vv"
 
-echo "TOXPOSARGS[patched]: "$TOXPOSARGS
-echo "TOXARGS[patched]: "$TOXARGS
+pip install tox-pypi-filter
+
+tox -e $TOXENV $TOXPOSARGS --pypi-filter='pytest<5' -vv -- $TOXPOSARGS
