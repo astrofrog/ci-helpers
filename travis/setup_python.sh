@@ -10,7 +10,7 @@ if [[ -z $PYTHON_VERSION ]]; then
 fi
 
 if [[ $PYTHON_VERSION == 3.6 ]]; then
-    FULL_PYTHON_VERSION=3.6.9;
+    FULL_PYTHON_VERSION=3.6.8;
 elif [[ $PYTHON_VERSION == 3.7 ]]; then
     FULL_PYTHON_VERSION=3.7.9;
 elif [[ $PYTHON_VERSION == 3.8 ]]; then
