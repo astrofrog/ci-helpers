@@ -13,7 +13,7 @@ if [[ $TRAVIS_OS_NAME == windows ]]; then
     CONDENSED_PYTHON_VERSION="${PYTHON_VERSION//.}"
     choco install --no-progress python --version $PYTHON_VERSION;
     export PATH="/c/Python$CONDENSED_PYTHON_VERSION:/c/Python$CONDENSED_PYTHON_VERSION/Scripts:$PATH"
-    python$PYTHON_VERSION -m venv ~/python;
+    python -m venv ~/python;
     source ~/python/bin/activate;
     python -m pip install --upgrade pip;
 fi
