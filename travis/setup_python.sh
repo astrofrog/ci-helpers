@@ -25,8 +25,8 @@ if [[ $TRAVIS_OS_NAME == windows ]]; then
     export PATH="/c/Python$CONDENSED_PYTHON_VERSION:/c/Python$CONDENSED_PYTHON_VERSION/Scripts:$PATH"
     python -m venv ~/python;
     ls /c/Users/travis/python/
-    ls /c/Users/travis/python/bin/
-    source ~/python/bin/activate;
+    ls /c/Users/travis/python/Scripts/
+    source ~/python/Scripts/activate;
     python -m pip install --upgrade pip;
 fi
 
